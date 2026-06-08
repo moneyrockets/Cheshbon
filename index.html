@@ -117,6 +117,24 @@
   .realmbar .nm .en{font-size:14px;color:var(--ink-faint);}
   .realmbar .ct{font-size:20px;font-weight:700;color:var(--ink-soft);}
 
+  .insight .ins{font-size:16.5px;line-height:1.6;}
+  .insight .ins+.ins{margin-top:14px;padding-top:14px;border-top:1px solid var(--sep);}
+  .insight .tag{font-size:13px;font-weight:600;color:var(--ink-faint);display:block;margin-bottom:3px;}
+  .insight b{color:var(--accent);font-weight:700;}
+  .insight .he{font-family:var(--heb);font-weight:500;}
+  .daygroup{margin-bottom:20px;}
+  .dayhead{display:flex;align-items:center;justify-content:space-between;margin:0 6px 9px;}
+  .dayhead .dd{font-size:14px;font-weight:700;color:var(--ink-soft);}
+  .dayhead .dbal{font-size:13px;color:var(--ink-faint);display:flex;align-items:center;}
+  .dayhead .dbal i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
+  .dayhead .dbal i.l{background:var(--accent);}
+  .dayhead .dbal i.y{background:var(--yetzer);margin-left:10px;}
+  .tools{display:flex;flex-direction:column;gap:9px;}
+  .tool{width:100%;border:1px solid var(--sep);background:var(--card);color:var(--ink);border-radius:12px;padding:14px;font-family:var(--ui);font-size:15.5px;font-weight:600;text-align:center;cursor:pointer;display:block;}
+  .tool:active{transform:scale(.98);}
+  .toast{position:fixed;left:50%;bottom:calc(124px + var(--safe-b));transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:11px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:80;max-width:80%;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
   .tree-wrap{padding:18px 18px 4px;}
   .tree-wrap .intro{font-size:15px;color:var(--ink-soft);line-height:1.55;margin:0 2px;}
   .tree svg{width:100%;max-width:300px;height:auto;display:block;margin:14px auto 0;overflow:visible;}
@@ -242,6 +260,24 @@
         <div class="realmbar"><span class="ico">🗣️</span><span class="nm"><span class="he">דִּבּוּר</span> <span class="en">Speech</span></span><span class="ct" id="r-speech">0</span></div>
         <div class="realmbar"><span class="ico">✋</span><span class="nm"><span class="he">מַעֲשֶׂה</span> <span class="en">Deed</span></span><span class="ct" id="r-deed">0</span></div>
       </div>
+
+      <div class="label">Where your work lies</div>
+      <div class="card pad insight" id="r-insight"></div>
+
+      <div class="label">The ledger · every moment</div>
+      <div id="r-history"></div>
+
+      <div class="label">Keep it safe</div>
+      <div class="card pad">
+        <div class="tools">
+          <button class="tool" id="t-export">Export backup file</button>
+          <button class="tool" id="t-copy">Copy all to clipboard</button>
+          <label class="tool" for="t-import-file">Import backup file</label>
+          <input id="t-import-file" type="file" accept="application/json,.json" style="display:none">
+          <button class="tool" id="t-paste">Paste to import</button>
+        </div>
+        <p style="font-size:13.5px;color:var(--ink-faint);margin-top:15px;line-height:1.55;text-align:center">A soul's accounting is meant to last. Export now and then so your ledger is never lost — and use Import to bring entries back together if they split between Safari and your home-screen app.</p>
+      </div>
     </section>
 
     <section class="view" id="v-watch">
@@ -283,6 +319,7 @@
   <button class="tab" data-v="path"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="2.3"/><circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="12" r="2.3"/><circle cx="12" cy="19" r="2.3"/><path d="M12 7.3v9.4M10.4 6.4 7.6 10.6M13.6 6.4l2.8 4.2M7.6 13.4l2.8 4.2M16.4 13.4l-2.8 4.2" stroke-linecap="round"/></svg><span class="lb">Path</span></button>
 </div></nav>
 
+<div class="toast" id="toast"></div>
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet">
   <div class="grabber"></div>
@@ -339,7 +376,7 @@ function renderToday(){
   const list=document.getElementById('t-list');
   if(!today.length){list.innerHTML=`<div class="empty"><svg width="132" height="132" viewBox="0 0 100 100" style="opacity:.6"><defs><clipPath id="se1"><circle cx="37.30" cy="72.00" r="7"/></clipPath><clipPath id="se3"><circle cx="75.40" cy="50.00" r="7"/></clipPath><clipPath id="se5"><circle cx="37.30" cy="28.00" r="7"/></clipPath></defs><path d="M11.89 28.00 L50.00 94.00 L88.11 28.00 Z" fill="none" stroke="var(--accent)" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="6"/><path d="M50.00 6.00 L11.89 72.00 L88.11 72.00 Z" fill="none" stroke="var(--accent)" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="6"/><g clip-path="url(#se1)"><path d="M11.89 28.00 L50.00 94.00 L88.11 28.00 Z" fill="none" stroke="var(--accent)" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="6"/></g><g clip-path="url(#se3)"><path d="M11.89 28.00 L50.00 94.00 L88.11 28.00 Z" fill="none" stroke="var(--accent)" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="6"/></g><g clip-path="url(#se5)"><path d="M11.89 28.00 L50.00 94.00 L88.11 28.00 Z" fill="none" stroke="var(--accent)" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="6"/></g></svg><p>The page is still blank.<br>Tap + to record the first moment of your day.</p></div>`;return;}
   list.innerHTML=today.slice().reverse().map(e=>{const r=REALM[e.realm];return `<div class="entry"><div class="glyph">${r.ic}</div><div class="body"><div class="meta"><span class="realm">${r.he} · ${r.en}</span><span class="pill ${e.dir}">${e.dir==='light'?'toward the light':'toward the yetzer'}</span></div><div class="text">${esc(e.text)}</div>${e.weigh?`<div class="weigh">“${esc(e.weigh)}”</div>`:''}<div class="time">${new Date(e.ts).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div></div><button class="del" data-id="${e.ts}">×</button></div>`;}).join('');
-  list.querySelectorAll('.del').forEach(b=>b.onclick=()=>{entries=entries.filter(e=>String(e.ts)!==b.dataset.id);save();renderToday();});
+  list.querySelectorAll('.del').forEach(b=>b.onclick=()=>deleteEntry(b.dataset.id));
 }
 function renderReckon(){
   document.getElementById('r-total').textContent=entries.length;
@@ -356,7 +393,22 @@ function renderReckon(){
     const l=day.filter(e=>e.dir==='light').length,y=day.filter(e=>e.dir==='yetzer').length;
     cols.push({l,y,lab:labels[d.getDay()],t:i===0});if(l+y>max)max=l+y;}
   document.getElementById('r-week').innerHTML=cols.map(c=>`<div class="col ${c.l+c.y?'':'empty'}"><div class="stack">${c.y?`<div class="seg y" style="height:${c.y/max*100}%"></div>`:''}${c.l?`<div class="seg l" style="height:${c.l/max*100}%"></div>`:''}</div><div class="day-lab ${c.t?'today':''}">${c.lab}</div></div>`).join('');
+  renderInsight();renderHistory();
 }
+function entryRow(e){const r=REALM[e.realm];return `<div class="entry"><div class="glyph">${r.ic}</div><div class="body"><div class="meta"><span class="realm">${r.he} · ${r.en}</span><span class="pill ${e.dir}">${e.dir==='light'?'toward the light':'toward the yetzer'}</span></div><div class="text">${esc(e.text)}</div>${e.weigh?`<div class="weigh">“${esc(e.weigh)}”</div>`:''}<div class="time">${new Date(e.ts).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div></div><button class="del" data-id="${e.ts}">×</button></div>`;}
+function bindDeletes(box){box.querySelectorAll('.del').forEach(b=>b.onclick=()=>deleteEntry(b.dataset.id));}
+function deleteEntry(ts){if(!confirm('Remove this moment from your ledger?'))return;entries=entries.filter(e=>String(e.ts)!==String(ts));save();renderToday();renderReckon();}
+function renderHistory(){const box=document.getElementById('r-history');if(!entries.length){box.innerHTML='<div class="card"><div class="empty"><p>No moments yet. Your ledger will fill as you weigh your days.</p></div></div>';return;}const by={};entries.forEach(e=>{const d=new Date(e.ts).toDateString();(by[d]=by[d]||[]).push(e);});const dates=Object.keys(by).sort((a,b)=>new Date(b)-new Date(a));box.innerHTML=dates.map(d=>{const day=by[d].slice().sort((a,b)=>b.ts-a.ts);const l=day.filter(e=>e.dir==='light').length,y=day.filter(e=>e.dir==='yetzer').length;const lab=new Date(d).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});return `<div class="daygroup"><div class="dayhead"><span class="dd">${lab}</span><span class="dbal"><i class="l"></i>${l}<i class="y"></i>${y}</span></div><div class="card">${day.map(entryRow).join('')}</div></div>`;}).join('');bindDeletes(box);}
+function renderInsight(){const box=document.getElementById('r-insight');const n=entries.length;if(n<3){box.innerHTML='<p class="ins"><span class="tag">A gentle word</span>Keep weighing your days. As the moments gather, the shape of your work — and of your light — will show itself here.</p>';return;}const R={thought:{he:'מַחֲשָׁבָה',en:'Thought'},speech:{he:'דִּבּוּר',en:'Speech'},deed:{he:'מַעֲשֶׂה',en:'Deed'}};const yb={thought:0,speech:0,deed:0},lb={thought:0,speech:0,deed:0};entries.forEach(e=>{(e.dir==='yetzer'?yb:lb)[e.realm]++;});const work=Object.keys(yb).sort((a,b)=>yb[b]-yb[a])[0];const shine=Object.keys(lb).sort((a,b)=>lb[b]-lb[a])[0];const light=entries.filter(e=>e.dir==='light').length;let h='';if(yb[work]>0)h+=`<p class="ins"><span class="tag">The realm that asks the most of you</span><b class="he">${R[work].he}</b> · <b>${R[work].en}</b> — here you most often turn toward the yetzer. Not a failing, but the ground worth tending.</p>`;if(lb[shine]>0)h+=`<p class="ins"><span class="tag">Where your light shines</span><b class="he">${R[shine].he}</b> · <b>${R[shine].en}</b> — most of your turns toward the light live here.</p>`;h+=`<p class="ins"><span class="tag">The balance so far</span><b>${light}</b> of <b>${n}</b> weighed moments turned toward the light. Each one kindles the Tree.</p>`;box.innerHTML=h;}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2000);}
+function exportBackup(){try{const blob=new Blob([JSON.stringify(entries,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='cheshbon-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Backup downloaded');}catch(e){toast('Try “Copy all” instead');}}
+async function copyBackup(){const data=JSON.stringify(entries);try{await navigator.clipboard.writeText(data);toast('Copied — paste somewhere safe');}catch(e){prompt('Copy your backup text:',data);}}
+function mergeIn(arr){if(!Array.isArray(arr))throw 0;const seen=new Set(entries.map(x=>x.ts));let added=0;arr.forEach(x=>{if(x&&x.ts&&!seen.has(x.ts)){entries.push(x);seen.add(x.ts);added++;}});entries.sort((a,b)=>a.ts-b.ts);save();renderToday();renderReckon();return added;}
+function pasteImport(){const s=prompt('Paste your backup text:');if(!s)return;try{toast(mergeIn(JSON.parse(s))+' moments imported');}catch(e){toast('That didn’t look like a backup');}}
+document.getElementById('t-export').onclick=exportBackup;
+document.getElementById('t-copy').onclick=copyBackup;
+document.getElementById('t-paste').onclick=pasteImport;
+document.getElementById('t-import-file').onchange=function(ev){const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{toast(mergeIn(JSON.parse(rd.result))+' moments imported');}catch(e){toast('Could not read that file');}};rd.readAsText(f);ev.target.value='';};
 function renderTree(){
   const light=entries.filter(e=>e.dir==='light').length;
   const lit=Math.min(10,Math.floor(light/3));
