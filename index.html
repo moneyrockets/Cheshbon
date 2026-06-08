@@ -154,6 +154,39 @@
   .sef .nm b{font-size:16px;font-weight:600;}
   .sef .nm .ds{font-size:13.5px;color:var(--ink-faint);}
 
+  .node{cursor:pointer;}
+  .ascent{text-align:center;margin:2px 8px 6px;}
+  .ascent .lead{font-size:12px;font-weight:700;color:var(--ink-faint);letter-spacing:.6px;}
+  .ascent .now{font-family:var(--heb);font-size:27px;font-weight:700;margin-top:3px;}
+  .ascent .nowen{font-size:14px;color:var(--ink-soft);}
+  .ascent .count{font-size:13px;color:var(--ink-faint);margin-top:5px;}
+  .curbar{height:8px;border-radius:5px;background:var(--sub);overflow:hidden;margin:18px 10px 0;}
+  .curbar-fill{height:100%;background:var(--accent);width:0;border-radius:5px;transition:width .7s cubic-bezier(.4,1.1,.5,1);}
+  .pl.lit{stroke:var(--accent);opacity:.8;stroke-width:1.7;}
+  .node.current circle{stroke:var(--accent);stroke-width:2.4;opacity:1;}
+  .node.current text{fill:var(--accent);}
+  .node.current{animation:np 2.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  @keyframes np{0%,100%{opacity:.92}50%{opacity:1}}
+  .sef{cursor:pointer;}
+  .sef.locked{opacity:.55;}
+  .sef.current .dot{background:var(--accent);border-color:var(--accent);opacity:1;animation:dp 2s ease-in-out infinite;}
+  @keyframes dp{0%,100%{opacity:1}50%{opacity:.35}}
+  .sef .sstat{margin-left:auto;font-size:12px;color:var(--ink-faint);font-weight:600;white-space:nowrap;}
+  .sd-he{font-family:var(--heb);font-size:38px;font-weight:700;text-align:center;line-height:1.05;}
+  .sd-en{text-align:center;color:var(--ink-soft);font-size:15px;margin-top:5px;}
+  .sd-status{text-align:center;font-size:14px;color:var(--ink-soft);margin:18px 0 6px;}
+  .sd-status.lit{color:var(--accent);font-weight:700;}
+  .sd-status.cur{color:var(--ink);font-weight:600;}
+  .sd-teach{font-size:17.5px;line-height:1.7;text-align:center;margin-top:10px;}
+  .sd-note{font-size:13.5px;color:var(--ink-faint);text-align:center;margin-top:18px;line-height:1.55;}
+  .focus{cursor:pointer;margin-top:12px;}
+  .focus .tag{font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--ink-faint);}
+  .focus .ttl{display:flex;align-items:baseline;gap:10px;margin-top:6px;flex-wrap:wrap;}
+  .focus .ttl .he{font-family:var(--heb);font-size:26px;font-weight:700;}
+  .focus .ttl .en{font-size:15px;color:var(--ink-soft);font-weight:600;}
+  .focus .kav{font-size:16.5px;line-height:1.6;margin-top:10px;}
+  .spark{filter:drop-shadow(0 0 5px var(--accent));}
+
   .verse{padding:26px 22px;text-align:center;}
   .verse .he{font-family:var(--heb);font-size:25px;font-weight:500;line-height:1.55;}
   .verse .en{font-style:italic;color:var(--ink-soft);font-size:16.5px;margin-top:14px;line-height:1.55;}
@@ -235,6 +268,7 @@
         <div class="scale"><div class="l" id="t-bar-l"></div><div class="y" id="t-bar-y"></div></div>
         <div class="scale-legend"><span><b id="t-light">0</b> toward the light</span><span><b id="t-yetzer">0</b> toward the yetzer</span></div>
       </div>
+      <div class="card pad focus" id="t-focus"></div>
       <div class="label">The day's moments</div>
       <div class="card" id="t-list"></div>
     </section>
@@ -299,13 +333,14 @@
       <div class="label">עֵץ הַחַיִּים · The Tree of Life</div>
       <div class="card">
         <div class="tree-wrap">
-          <div class="intro">Each moment toward the light kindles a Sefirah, ascending from Malchut — the deed in the world — toward Keter, the crown.</div>
-          <div class="tree"><svg viewBox="-8 8 216 326" aria-label="Tree of Life"><g><line class="pl" x1="100" y1="28" x2="156" y2="76"/><line class="pl" x1="100" y1="28" x2="44" y2="76"/><line class="pl" x1="100" y1="28" x2="100" y2="190"/><line class="pl" x1="156" y1="76" x2="44" y2="76"/><line class="pl" x1="156" y1="76" x2="100" y2="190"/><line class="pl" x1="156" y1="76" x2="156" y2="150"/><line class="pl" x1="44" y1="76" x2="100" y2="190"/><line class="pl" x1="44" y1="76" x2="44" y2="150"/><line class="pl" x1="156" y1="150" x2="44" y2="150"/><line class="pl" x1="156" y1="150" x2="100" y2="190"/><line class="pl" x1="156" y1="150" x2="156" y2="230"/><line class="pl" x1="44" y1="150" x2="100" y2="190"/><line class="pl" x1="44" y1="150" x2="44" y2="230"/><line class="pl" x1="100" y1="190" x2="156" y2="230"/><line class="pl" x1="100" y1="190" x2="44" y2="230"/><line class="pl" x1="100" y1="190" x2="100" y2="272"/><line class="pl" x1="156" y1="230" x2="44" y2="230"/><line class="pl" x1="156" y1="230" x2="100" y2="272"/><line class="pl" x1="156" y1="230" x2="100" y2="318"/><line class="pl" x1="44" y1="230" x2="100" y2="272"/><line class="pl" x1="44" y1="230" x2="100" y2="318"/><line class="pl" x1="100" y1="272" x2="100" y2="318"/></g><g class="node" id="sef1"><circle cx="100" cy="28" r="14"/><text x="100" y="32" text-anchor="middle">1</text></g><g class="node" id="sef2"><circle cx="156" cy="76" r="14"/><text x="156" y="80" text-anchor="middle">2</text></g><g class="node" id="sef3"><circle cx="44" cy="76" r="14"/><text x="44" y="80" text-anchor="middle">3</text></g><g class="node" id="sef4"><circle cx="156" cy="150" r="14"/><text x="156" y="154" text-anchor="middle">4</text></g><g class="node" id="sef5"><circle cx="44" cy="150" r="14"/><text x="44" y="154" text-anchor="middle">5</text></g><g class="node" id="sef6"><circle cx="100" cy="190" r="16"/><text x="100" y="194" text-anchor="middle">6</text></g><g class="node" id="sef7"><circle cx="156" cy="230" r="14"/><text x="156" y="234" text-anchor="middle">7</text></g><g class="node" id="sef8"><circle cx="44" cy="230" r="14"/><text x="44" y="234" text-anchor="middle">8</text></g><g class="node" id="sef9"><circle cx="100" cy="272" r="14"/><text x="100" y="276" text-anchor="middle">9</text></g><g class="node" id="sef10"><circle cx="100" cy="318" r="14"/><text x="100" y="322" text-anchor="middle">10</text></g></svg></div>
-          <div class="kindle" id="kindle">Kindled: <b>0</b> of 10</div>
+          <div class="ascent" id="t-ascent"></div>
+          <div class="tree"><svg viewBox="-8 8 216 326" aria-label="Tree of Life"><g><line class="pl" data-a="1" data-b="2" x1="100" y1="28" x2="156" y2="76"/><line class="pl" data-a="1" data-b="3" x1="100" y1="28" x2="44" y2="76"/><line class="pl" data-a="1" data-b="6" x1="100" y1="28" x2="100" y2="190"/><line class="pl" data-a="2" data-b="3" x1="156" y1="76" x2="44" y2="76"/><line class="pl" data-a="2" data-b="6" x1="156" y1="76" x2="100" y2="190"/><line class="pl" data-a="2" data-b="4" x1="156" y1="76" x2="156" y2="150"/><line class="pl" data-a="3" data-b="6" x1="44" y1="76" x2="100" y2="190"/><line class="pl" data-a="3" data-b="5" x1="44" y1="76" x2="44" y2="150"/><line class="pl" data-a="4" data-b="5" x1="156" y1="150" x2="44" y2="150"/><line class="pl" data-a="4" data-b="6" x1="156" y1="150" x2="100" y2="190"/><line class="pl" data-a="4" data-b="7" x1="156" y1="150" x2="156" y2="230"/><line class="pl" data-a="5" data-b="6" x1="44" y1="150" x2="100" y2="190"/><line class="pl" data-a="5" data-b="8" x1="44" y1="150" x2="44" y2="230"/><line class="pl" data-a="6" data-b="7" x1="100" y1="190" x2="156" y2="230"/><line class="pl" data-a="6" data-b="8" x1="100" y1="190" x2="44" y2="230"/><line class="pl" data-a="6" data-b="9" x1="100" y1="190" x2="100" y2="272"/><line class="pl" data-a="7" data-b="8" x1="156" y1="230" x2="44" y2="230"/><line class="pl" data-a="7" data-b="9" x1="156" y1="230" x2="100" y2="272"/><line class="pl" data-a="7" data-b="10" x1="156" y1="230" x2="100" y2="318"/><line class="pl" data-a="8" data-b="9" x1="44" y1="230" x2="100" y2="272"/><line class="pl" data-a="8" data-b="10" x1="44" y1="230" x2="100" y2="318"/><line class="pl" data-a="9" data-b="10" x1="100" y1="272" x2="100" y2="318"/></g><g class="node" id="sef1"><circle cx="100" cy="28" r="14"/><text x="100" y="32" text-anchor="middle">1</text></g><g class="node" id="sef2"><circle cx="156" cy="76" r="14"/><text x="156" y="80" text-anchor="middle">2</text></g><g class="node" id="sef3"><circle cx="44" cy="76" r="14"/><text x="44" y="80" text-anchor="middle">3</text></g><g class="node" id="sef4"><circle cx="156" cy="150" r="14"/><text x="156" y="154" text-anchor="middle">4</text></g><g class="node" id="sef5"><circle cx="44" cy="150" r="14"/><text x="44" y="154" text-anchor="middle">5</text></g><g class="node" id="sef6"><circle cx="100" cy="190" r="16"/><text x="100" y="194" text-anchor="middle">6</text></g><g class="node" id="sef7"><circle cx="156" cy="230" r="14"/><text x="156" y="234" text-anchor="middle">7</text></g><g class="node" id="sef8"><circle cx="44" cy="230" r="14"/><text x="44" y="234" text-anchor="middle">8</text></g><g class="node" id="sef9"><circle cx="100" cy="272" r="14"/><text x="100" y="276" text-anchor="middle">9</text></g><g class="node" id="sef10"><circle cx="100" cy="318" r="14"/><text x="100" y="322" text-anchor="middle">10</text></g></svg></div>
+          <div class="curbar"><div class="curbar-fill" id="t-curfill"></div></div>
+          <div class="kindle" id="kindle"></div>
         </div>
       </div>
-      <div class="label">The ten Sefirot</div>
-      <div class="card"><div class="sef" id="leg1"><span class="dot"></span><span class="he">כֶּתֶר</span><span class="nm"><b>Keter</b><span class="ds">Crown · the will to begin</span></span></div><div class="sef" id="leg2"><span class="dot"></span><span class="he">חָכְמָה</span><span class="nm"><b>Chochmah</b><span class="ds">Wisdom · the first spark</span></span></div><div class="sef" id="leg3"><span class="dot"></span><span class="he">בִּינָה</span><span class="nm"><b>Binah</b><span class="ds">Understanding · giving it form</span></span></div><div class="sef" id="leg4"><span class="dot"></span><span class="he">חֶסֶד</span><span class="nm"><b>Chesed</b><span class="ds">Loving-kindness</span></span></div><div class="sef" id="leg5"><span class="dot"></span><span class="he">גְּבוּרָה</span><span class="nm"><b>Gevurah</b><span class="ds">Restraint · holy strength</span></span></div><div class="sef" id="leg6"><span class="dot"></span><span class="he">תִּפְאֶרֶת</span><span class="nm"><b>Tiferet</b><span class="ds">Harmony · the heart</span></span></div><div class="sef" id="leg7"><span class="dot"></span><span class="he">נֶצַח</span><span class="nm"><b>Netzach</b><span class="ds">Endurance</span></span></div><div class="sef" id="leg8"><span class="dot"></span><span class="he">הוֹד</span><span class="nm"><b>Hod</b><span class="ds">Humility · splendor</span></span></div><div class="sef" id="leg9"><span class="dot"></span><span class="he">יְסוֹד</span><span class="nm"><b>Yesod</b><span class="ds">Foundation</span></span></div><div class="sef" id="leg10"><span class="dot"></span><span class="he">מַלְכוּת</span><span class="nm"><b>Malchut</b><span class="ds">Sovereignty · the deed in the world</span></span></div></div>
+      <div class="label">The ten Sefirot · tap to enter</div>
+      <div class="card" id="sef-list"></div>
     </section>
   </main>
 </div>
@@ -344,6 +379,13 @@
   <button class="btn ghost" id="cancel">Not now</button>
 </div>
 
+<div class="scrim" id="sefScrim"></div>
+<div class="sheet" id="sefSheet">
+  <div class="grabber"></div>
+  <div id="sef-detail"></div>
+  <button class="btn ghost" id="sefClose" style="margin-top:18px">Close</button>
+</div>
+
 <script>
 const Store=(()=>{let ok=true;try{localStorage.setItem('__t','1');localStorage.removeItem('__t');}catch(e){ok=false;}let mem={};
   return{get:k=>{try{return ok?localStorage.getItem(k):mem[k];}catch(e){return mem[k];}},set:(k,v)=>{try{ok?localStorage.setItem(k,v):mem[k]=v;}catch(e){mem[k]=v;}}};})();
@@ -365,6 +407,7 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
 });
 
 function renderToday(){
+  renderFocus();
   const now=new Date();
   document.getElementById('t-date').textContent=now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const h=now.getHours();
@@ -409,15 +452,75 @@ document.getElementById('t-export').onclick=exportBackup;
 document.getElementById('t-copy').onclick=copyBackup;
 document.getElementById('t-paste').onclick=pasteImport;
 document.getElementById('t-import-file').onchange=function(ev){const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{toast(mergeIn(JSON.parse(rd.result))+' moments imported');}catch(e){toast('Could not read that file');}};rd.readAsText(f);ev.target.value='';};
+const COST={10:3,9:4,8:5,7:6,6:8,5:10,4:12,3:15,2:18,1:22};
+const SEFIROT=[
+ {n:1,he:'כֶּתֶר',tr:'Keter',en:'Crown',fig:'',up:1,teach:'The crown above the mind — pure will toward the good, before thought even begins. The summit of the ascent.'},
+ {n:2,he:'חָכְמָה',tr:'Chochmah',en:'Wisdom',fig:'',up:1,teach:'The first flash of insight — the seed of an idea, before it takes any form.'},
+ {n:3,he:'בִּינָה',tr:'Binah',en:'Understanding',fig:'',up:1,teach:'The mind that develops the spark, giving wisdom shape, depth, and detail.'},
+ {n:4,he:'חֶסֶד',tr:'Chesed',en:'Loving-kindness',fig:'Abraham',up:0,teach:'Boundless giving — the impulse to do good freely, without measure.'},
+ {n:5,he:'גְּבוּרָה',tr:'Gevurah',en:'Strength · Restraint',fig:'Isaac',up:0,teach:'Holy discipline — knowing when to hold back. Justice, boundaries, self-mastery.'},
+ {n:6,he:'תִּפְאֶרֶת',tr:'Tiferet',en:'Beauty · Harmony',fig:'Jacob',up:0,teach:'The heart that balances kindness and restraint into truth and compassion.'},
+ {n:7,he:'נֶצַח',tr:'Netzach',en:'Endurance',fig:'Moses',up:0,teach:'Persistence — staying the course in doing good, even against resistance.'},
+ {n:8,he:'הוֹד',tr:'Hod',en:'Humility · Splendor',fig:'Aaron',up:0,teach:'Yielding, gratitude, and sincerity — making room for what is greater than you.'},
+ {n:9,he:'יְסוֹד',tr:'Yesod',en:'Foundation',fig:'Joseph',up:0,teach:'The channel joining all above to the world below — integrity and faithfulness.'},
+ {n:10,he:'מַלְכוּת',tr:'Malchut',en:'Sovereignty',fig:'David',up:0,teach:'Where it all becomes real: the deed in the world. The journey begins here.'}
+];
+const SEF=n=>SEFIROT.find(s=>s.n===n);
+const PRACTICE={1:'Begin the day with one pure intention to do good — before anything else.',2:'Notice the first spark of a good idea today, and honor it instead of dismissing it.',3:'Take one insight and think it all the way through, with patience.',4:'Give freely once today — time, attention, or help — expecting nothing back.',5:'Hold back one impulse you know is better left unspoken or undone.',6:'Where you would usually react, seek the balanced, truthful response instead.',7:'Persist in one good thing you are tempted to abandon.',8:'Offer sincere thanks, and let someone else be right.',9:'Keep one small commitment today exactly as you said you would.',10:'Turn one good intention into a concrete deed out in the world.'};
+let kindled=JSON.parse(Store.get('cheshbon.kindled')||'{}');
+let shownKindled=null;
+function progress(light){let cum=0,fully=[],current=null,have=0,need=0;for(const n of ASCENT){const c=COST[n];if(light>=cum+c){fully.push(n);cum+=c;}else{current=n;have=light-cum;need=c;break;}}return{fully,current,have,need};}
 function renderTree(){
   const light=entries.filter(e=>e.dir==='light').length;
-  const lit=Math.min(10,Math.floor(light/3));
-  const onSet=new Set(ASCENT.slice(0,lit));
-  for(let i=1;i<=10;i++){document.getElementById('sef'+i).classList.toggle('lit',onSet.has(i));document.getElementById('leg'+i).classList.toggle('lit',onSet.has(i));}
+  const {fully,current,have,need}=progress(light);
+  const fset=new Set(fully);
+  let ch=false;fully.forEach(n=>{if(!kindled[n]){kindled[n]=Date.now();ch=true;}});if(ch)Store.set('cheshbon.kindled',JSON.stringify(kindled));
+  if(shownKindled!==null){const nw=fully.filter(n=>!shownKindled.has(n));nw.forEach((n,i)=>{const idx=ASCENT.indexOf(n);sparkTo(n,idx>0?ASCENT[idx-1]:null,i*1100);});}
+  shownKindled=new Set(fully);
+  for(let i=1;i<=10;i++){const g=document.getElementById('sef'+i);g.classList.toggle('lit',fset.has(i));g.classList.toggle('current',current===i);}
+  document.querySelectorAll('.pl').forEach(l=>l.classList.toggle('lit',fset.has(+l.dataset.a)&&fset.has(+l.dataset.b)));
+  const asc=document.getElementById('t-ascent');
+  if(current){const s=SEF(current);asc.innerHTML=`<div class="lead">YOU ARE ASCENDING · BUILDING</div><div class="now">${s.he}</div><div class="nowen">${s.tr} · ${s.en}</div><div class="count">${fully.length} of 10 kindled</div>`;}
+  else{asc.innerHTML=`<div class="lead">THE TREE IS FULLY KINDLED</div><div class="now">כֶּתֶר</div><div class="nowen">Keter · the crown shines</div><div class="count">10 of 10 · ${light} moments toward the light</div>`;}
+  document.getElementById('t-curfill').style.width=(current?Math.round(have/need*100):100)+'%';
   const k=document.getElementById('kindle');
-  if(lit>=10){k.innerHTML='The tree is fully kindled — <b>Keter</b> shines. <b>'+light+'</b> moments toward the light.';}
-  else{const need=(lit+1)*3-light;k.innerHTML='Kindled: <b>'+lit+'</b> of 10 · '+need+' more toward the light to kindle the next.';}
+  if(current){k.innerHTML=`<b>${have}</b> of ${need} toward the light · <b>${need-have}</b> more to kindle ${SEF(current).tr}`;}
+  else{k.textContent='Every Sefirah is alight. Continue — each moment still raises a spark.';}
+  renderSefList(fset,current);
 }
+function renderSefList(fset,current){
+  const box=document.getElementById('sef-list');
+  box.innerHTML=SEFIROT.map(s=>{let cls,st;if(fset.has(s.n)){cls='lit';const d=kindled[s.n];st=d?('kindled '+new Date(+d).toLocaleDateString(undefined,{month:'short',day:'numeric'})):'kindled';}else if(current===s.n){cls='current';st='building now';}else{cls='locked';st='not yet';}return `<div class="sef ${cls}" data-n="${s.n}"><span class="dot"></span><span class="he">${s.he}</span><span class="nm"><b>${s.tr}</b><span class="ds">${s.en}</span></span><span class="sstat">${st}</span></div>`;}).join('');
+  box.querySelectorAll('.sef').forEach(r=>r.onclick=()=>openSefira(+r.dataset.n));
+}
+function openSefira(n){
+  const s=SEF(n);const light=entries.filter(e=>e.dir==='light').length;const {fully,current,have,need}=progress(light);
+  let status;
+  if(fully.includes(n)){const d=kindled[n];status=`<div class="sd-status lit">✦ Kindled${d?' on '+new Date(+d).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'}):''}</div>`;}
+  else if(current===n){status=`<div class="sd-status cur">Building now — ${have} of ${need} · ${need-have} more toward the light</div><div class="curbar" style="margin:12px 0 0"><div class="curbar-fill" style="width:${Math.round(have/need*100)}%"></div></div>`;}
+  else{status=`<div class="sd-status">Dormant — kindles once the Sefirot below it are alight</div>`;}
+  const note=s.up?'One of the three higher Sefirot — beyond emotion, toward pure mind and will.':'One of the seven middot — the character traits refined in the soul\u2019s work.'+(s.fig?' Its figure is '+s.fig+'.':'');
+  document.getElementById('sef-detail').innerHTML=`<div class="sd-he">${s.he}</div><div class="sd-en">${s.tr} · ${s.en}${s.fig?' · '+s.fig:''}</div>${status}<p class="sd-teach">${s.teach}</p><p class="sd-note">${note}</p>`;
+  document.getElementById('sefSheet').classList.add('open');document.getElementById('sefScrim').classList.add('open');
+}
+function closeSefira(){document.getElementById('sefSheet').classList.remove('open');document.getElementById('sefScrim').classList.remove('open');}
+function nodeXY(n){const c=document.querySelector('#sef'+n+' circle');return{x:+c.getAttribute('cx'),y:+c.getAttribute('cy')};}
+function sparkTo(toN,fromN,delay){
+  const svg=document.querySelector('.tree svg');if(!svg)return;
+  const b=nodeXY(toN);const a=fromN?nodeXY(fromN):{x:b.x,y:b.y+34};
+  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('r','4.5');c.setAttribute('cx','0');c.setAttribute('cy','0');c.setAttribute('fill','var(--accent)');c.setAttribute('class','spark');
+  svg.appendChild(c);
+  const anim=c.animate([
+    {transform:`translate(${a.x}px,${a.y}px)`,opacity:0},
+    {transform:`translate(${a.x}px,${a.y}px)`,opacity:1,offset:.12},
+    {transform:`translate(${b.x}px,${b.y}px)`,opacity:1,offset:.86},
+    {transform:`translate(${b.x}px,${b.y}px)`,opacity:0}
+  ],{duration:1100,delay:delay||0,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+  anim.onfinish=()=>c.remove();
+}
+function focusSefira(){const wk=[4,5,6,7,8,9,10];return wk[new Date().getDay()];}
+function renderFocus(){const box=document.getElementById('t-focus');if(!box)return;const n=focusSefira();const s=SEF(n);box.innerHTML=`<div class="tag">TODAY’S FOCUS · כַּוָּנָה</div><div class="ttl"><span class="he">${s.he}</span><span class="en">${s.tr} · ${s.en}</span></div><div class="kav">${PRACTICE[n]}</div>`;box.onclick=()=>openSefira(n);}
 
 const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
 let sel={realm:null,dir:null};
@@ -434,6 +537,8 @@ document.getElementById('save').onclick=()=>{
   txt.value='';document.getElementById('i-weigh').value='';check();close();
   document.querySelector('.tab[data-v="today"]').click();renderToday();
 };
+document.querySelectorAll('.node').forEach(g=>g.onclick=()=>openSefira(+g.id.replace('sef','')));
+document.getElementById('sefClose').onclick=closeSefira;document.getElementById('sefScrim').onclick=closeSefira;
 renderToday();renderReckon();renderTree();
 </script>
 </body>
